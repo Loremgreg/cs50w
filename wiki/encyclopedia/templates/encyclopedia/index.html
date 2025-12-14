@@ -1,16 +1,21 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Encyclopedia
+Encyclopedia
 {% endblock %}
 
 {% block body %}
-    <h1>All Pages</h1>
-
-    <ul>
-        {% for entry in entries %}
-            <li>{{ entry }}</li>
-        {% endfor %}
-    </ul>
+<h1>All Pages</h1>
+<!-- linker les pages : générer des URLs en se basant sur le nom donné à notre path dans urls.py ("entry)"
+* url 'entry' -> entry == name="entry" dans urls.py * entry.title -> "entry" vient de la boucle "for entry", "title"
+vient de "str:title" dans urls.py
+-->
+<ul>
+    {% for entry in entries %}
+    <li>
+        <a href="{% url 'entry' entry.title %}">{{ entry }}</a>
+    </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
