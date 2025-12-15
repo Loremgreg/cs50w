@@ -1,0 +1,24 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+Search results — {{ query }}
+{% endblock %}
+
+{% block body %}
+<h1>Search results for "{{ query }}"</h1>
+
+{% if results %}
+<ul>
+    {% for entry in results %}
+    <li><a href="{% url 'entry' title=entry %}">{{ entry }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No entries found matching "{{ query }}".</p>
+{% endif %}
+{% endblock %}
+
+<!-- Le template étend layout.html pour garder la barre latérale et le form de recherche.
+Il s'attend à recevoir deux variables depuis la vue : query (la chaîne recherchée) et results (la liste des titres correspondants).
+Si results n'est pas vide, il affiche chaque titre comme lien vers la vue d'entrée (utilise le nom d'URL "entry" et passe title=entry).
+Sinon, il affiche un message indiquant qu'aucun résultat n'a été trouvé. -->

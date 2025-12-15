@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # from django.http import HttpResponseRedirect
 from django.http import Http404
 import markdown2
@@ -35,3 +35,29 @@ def entry(request, title):
             "content": content,
         })
 
+def search(request):
+    """
+    Search view:
+    - reads query from request.GET['q']
+    - if query empty -> redirect to index
+    - if exact match (case-insensitive) -> redirect to that entry page
+    - otherwise -> render search results (entries containing query, case-insensitive)
+    """
+    q = request.GET.get("q", "").strip()
+    if not q:
+        return redirect("index")
+
+    entries = util.list_entries()
+
+    # exact match (case-insensitive)
+    for entry in entries:
+        if entry.lower() == q.lower():
+            return redirect("entry", title=entry)
+
+    # partial matches (case-insensitive)
+    results = [entry for entry in entries if q.lower() in entry.lower()]
+
+    return render(request, "encyclopedia/search.html", {
+        "query": q,
+        "results": results
+    })
