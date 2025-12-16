@@ -61,3 +61,37 @@ def search(request):
         "query": q,
         "results": results
     })
+
+def new_page(request):
+     if request.method == "POST":
+        # Récupérer les données : title et content
+          title = request.POST.get("title", "").strip()
+          content = request.POST.get("content", "").strip()
+
+
+          # Validation basique
+          if not title:
+               return render(request, "encyclopedia/new.html", {
+                "error": "Title is required.",
+                "title": title,
+                "content": content
+            })
+
+        # Vérifier doublon (insensible à la casse) avec  util.list_entries() 
+          entries = util.list_entries()
+          for entry in entries:
+            if entry.lower() == title.lower():
+                return render(request, "encyclopedia/new.html", {
+                    "error": "An entry with this title already exists.",
+                    "title": title,
+                    "content": content
+                })
+
+        # Sauvegarder et rediriger vers la nouvelle page avec util.save_entry
+          util.save_entry(title, content)
+          return redirect("entry", title=title)
+
+    # GET -> afficher le formulaire vide
+     elif request.method == "GET":
+          return render(request, "encyclopedia/new.html")
+

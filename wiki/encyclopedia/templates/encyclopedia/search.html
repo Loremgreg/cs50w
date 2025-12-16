@@ -22,3 +22,8 @@ Search results — {{ query }}
 Il s'attend à recevoir deux variables depuis la vue : query (la chaîne recherchée) et results (la liste des titres correspondants).
 Si results n'est pas vide, il affiche chaque titre comme lien vers la vue d'entrée (utilise le nom d'URL "entry" et passe title=entry).
 Sinon, il affiche un message indiquant qu'aucun résultat n'a été trouvé. -->
+
+
+{% extends "encyclopedia/layout.html" %}
+Indique que ce template hérite de layout.html ; les blocs définis ici remplaceront les blocs correspondants dans le
+layout.
