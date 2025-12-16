@@ -95,3 +95,23 @@ def new_page(request):
      elif request.method == "GET":
           return render(request, "encyclopedia/new.html")
 
+def edit_page(request, title):
+    """
+    Edit view:
+    - GET: render form pre-filled with existing markdown content
+    - POST: save updated content and redirect to the entry page
+    """
+    content = util.get_entry(title)
+    if content is None:
+        raise Http404(f"{title} does not exist")
+
+    if request.method == "POST":
+        new_content = request.POST.get("content", "").strip()
+        util.save_entry(title, new_content)
+        return redirect("entry", title=title)
+
+    # GET
+    return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "content": content
+    })

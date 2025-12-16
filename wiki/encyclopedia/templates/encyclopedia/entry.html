@@ -5,5 +5,22 @@
 {% endblock %}
 
 {% block body %}
-{{content|safe}}
+<h1>{{ title }}</h1>
+
+<div>
+    {{ content|safe }}
+</div>
+
+<div>
+    <a href="{% url 'edit' title=title %}">Edit Page</a>
+</div>
+
 {% endblock %}
+
+
+
+
+<!-- 
+{{ title }} : affiche le titre de l’entrée.
+{{ content|safe }} : affiche le HTML rendu (la vue entry doit passer du HTML ou utiliser markdown2 avant).
+Le lien Edit Page redirige vers la vue edit_page pour ce titre. -->

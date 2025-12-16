@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}Edit: {{ title }}{% endblock %}
+
+{% block body %}
+<h1>Edit "{{ title }}"</h1>
+
+<form action="{% url 'edit' title=title %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <textarea class="form-control" name="content" rows="20">{{ content }}</textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a class="btn btn-secondary" href="{% url 'entry' title=title %}">Cancel</a>
+</form>
+{% endblock %}
+
+<!-- 
+Étend layout.html pour garder la sidebar et le formulaire de recherche.
+Le formulaire fait POST vers la même route d’édition ({% url 'edit' title=title %}).
+{% csrf_token %} : protection CSRF obligatoire pour POST.
+<textarea>{{ content }}</textarea> : pré‑remplit le textarea avec le contenu Markdown actuel (la vue edit_page doit fournir la variable content via util.get_entry).
+En soumettant, la vue edit_page doit sauvegarder via util.save_entry(title, new_content) puis redirect('entry', title=title) pour retourner à la page affichée. -->
