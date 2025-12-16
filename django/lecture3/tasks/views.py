@@ -11,7 +11,7 @@ class NewTaskForm(forms.Form):
 # Create your views here.
 def index(request):
 
-    # Check if there already exists a "tasks" key in our session
+    # Check if there already exists a "tasks" key in our session 
     if "tasks" not in request.session:
 
         # If not, create a new list
